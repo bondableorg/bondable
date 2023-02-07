@@ -1,7 +1,3 @@
-from typing import Optional
-
-from sqlalchemy.exc import IntegrityError
-
 from core.business_cases.user.schemas import LocationCreate
 # from core.controllers.schemas.user import RequestAuthData
 from core.common.utils.utils import BondableBusinessCase
@@ -9,13 +5,14 @@ from core.db.models.location import Location
 from logger import logger
 
 
-class CreateUserBusinessCase(BondableBusinessCase):
+class CreateLocationBusinessCase(BondableBusinessCase):
     async def run(
         self,
         data: LocationCreate,
     ) -> Location:
         try:
-            user_id = await self.entities_service.location.create(**data.dict())
+            location_id = await self.entities_service.location.create(**data.dict())
+            
         except Exception as e:
             logger.exception(
                 f"{self.__class__.__name__}.run | IntegrityError",
@@ -23,7 +20,8 @@ class CreateUserBusinessCase(BondableBusinessCase):
             )
             raise Exception(e)
         
-        location = await self.entities_service.location.select_one(id=user_id)
+        location = await self.entities_service.location.select_one(id=location_id)
+        print(location.users)
         return location
 
 

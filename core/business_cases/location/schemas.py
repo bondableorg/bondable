@@ -2,12 +2,10 @@ from typing import Optional
 from uuid import UUID
 
 from pydantic import UUID4, BaseModel
-
-from core.db.choices.users import UserTypes
-
+from core.business_cases.user.schemas import UserSchema
 
 class LocationSchema(BaseModel):
-    id: UUID
+    id: UUID4
     name: str
     address: Optional[str]
     city: Optional[str]
@@ -17,6 +15,9 @@ class LocationSchema(BaseModel):
     phone: Optional[str]
     email: str
     website: Optional[str]
+    users: Optional[list[UserSchema]]
+    class Config:
+        orm_mode = True
 
 class LocationCreate(BaseModel):
     name: str
@@ -30,25 +31,8 @@ class LocationCreate(BaseModel):
     website: Optional[str]
     lead_contact: UUID4
 
-class UserCreate(BaseModel):
-    email: str
-    type: UserTypes
-    full_name: str
-    language: Optional[str]
-
-class UserUpdate(BaseModel):
+class LocationUpdate(BaseModel):
+    name: Optional[str]
+    address: Optional[str]
     email: Optional[str]
-    type: Optional[UserTypes]
-    full_name: Optional[str]
-    language: Optional[str]
-
-class UserSchema(BaseModel):
-    id: UUID4
-    email: str
-    full_name: str
-    language: Optional[str]
-    type: UserTypes
-    locations: Optional[list[LocationSchema]]
-
-    class Config:
-        orm_mode = True
+    lead_contact: Optional[UUID]

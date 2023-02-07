@@ -18,3 +18,5 @@ class User(Base, PKUUIDMixin, TimestampsMixin):
     # User Personal data
     full_name = Column(String, nullable=False, default="")
     language = Column(String(2), nullable=True, default="EN")
+
+    location = relationship("Location", back_populates="users", lazy="selectin")

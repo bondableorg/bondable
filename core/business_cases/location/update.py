@@ -15,11 +15,11 @@ class UpdateLocationBusinessCase(BondableBusinessCase):
     async def run(
         self,
         data: LocationUpdate,
-        user_id: UUID4,
+        location_id: UUID4,
     ) -> Location:
         try:
             updated = await self.entities_service.location.update(
-                id=user_id, update_dict=data.dict(exclude_none=True)
+                id=location_id, update_dict=data.dict(exclude_none=True)
             )
 
         except IntegrityError as e:
@@ -32,5 +32,5 @@ class UpdateLocationBusinessCase(BondableBusinessCase):
         if not updated:
             raise Exception
 
-        location = await self.entities_service.location.select_one(id=user_id)
+        location = await self.entities_service.location.select_one(id=location_id)
         return location

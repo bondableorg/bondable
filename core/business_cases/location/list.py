@@ -9,12 +9,12 @@ from core.db.models.location import Location
 from logger import logger
 
 
-class ListUserBusinessCase(BondableBusinessCase):
+class ListLocationsBusinessCase(BondableBusinessCase):
     async def run(
         self,
     ) -> list[Location]:
         try:
-            locations: list[Location] = await self.entities_service.user.select(
+            locations: list[Location] = await self.entities_service.location.select(
                 limit=100, offset=0
             )
         except IntegrityError as e:

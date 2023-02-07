@@ -1,8 +1,8 @@
-"""apply fk migrations new
+"""use new migrations for fk
 
-Revision ID: c22b2a18b4f1
+Revision ID: 1b55d7a89634
 Revises: 
-Create Date: 2023-02-07 12:25:16.684133
+Create Date: 2023-02-07 14:39:13.275262
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c22b2a18b4f1'
+revision = '1b55d7a89634'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -41,11 +41,11 @@ def upgrade():
     sa.Column('phone', sa.String(), nullable=True),
     sa.Column('email', sa.String(), nullable=True),
     sa.Column('website', sa.String(), nullable=True),
-    sa.Column('lead_contact', sa.UUID(), nullable=True),
+    sa.Column('user_id', sa.UUID(), nullable=True),
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('created_at', sa.TIMESTAMP(), nullable=False),
     sa.Column('updated_at', sa.TIMESTAMP(), nullable=False),
-    sa.ForeignKeyConstraint(['lead_contact'], ['user.id'], name=op.f('fk_location_lead_contact_user'), ondelete='SET NULL'),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], name=op.f('fk_location_user_id_user'), ondelete='SET NULL'),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_location')),
     sa.UniqueConstraint('id', name=op.f('uq_location_id'))
     )

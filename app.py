@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from config.settings import Settings
-# from core.controllers.v1.locations import locations_v1_router
+from core.controllers.v1.locations import location_v1_router
 from core.controllers.v1.users import user_v1_router
 from logger import logger
 
@@ -30,7 +30,7 @@ if settings.DEBUG:
 # configure routing
 
 app.include_router(prefix="/v1/users", router=user_v1_router, tags=["users"])
-# app.include_router(prefix="/v1/locations", router=locations_v1_router, tags=["locations"])
+app.include_router(prefix="/v1/locations", router=location_v1_router, tags=["locations"])
 
 
 logger.info("Application initialization completed")
