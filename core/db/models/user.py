@@ -1,4 +1,4 @@
-from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, String
+from sqlalchemy import TIMESTAMP, Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -19,4 +19,4 @@ class User(Base, PKUUIDMixin, TimestampsMixin):
     full_name = Column(String, nullable=False, default="")
     language = Column(String(2), nullable=True, default="EN")
 
-    location = Column(ForeignKey("location.id", ondelete="SET NULL"))
+    location_id = Column(ForeignKey("location.id"))

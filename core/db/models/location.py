@@ -20,6 +20,6 @@ class Location(Base, PKUUIDMixin, TimestampsMixin):
     email = Column(String, nullable=True, default="")
     website = Column(String, nullable=True, default="")
 
-    lead_contact = Column(ForeignKey("user.id", ondelete="SET NULL"))
+    lead_contact = Column(ForeignKey("user.id", ondelete="SET NULL"), nullable=True)
     # Relations
-    users = relationship("User", back_populates="locations", lazy="joined")
+    users = relationship("User", backref="location", foreign_keys=[lead_contact])
