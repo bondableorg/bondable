@@ -42,12 +42,6 @@ class UserUpdate(BaseModel):
     full_name: Optional[str]
     language: Optional[str]
 
-class LocationUpdate(BaseModel):
-    name: Optional[str]
-    address: Optional[UserTypes]
-    email: Optional[str]
-    lead_contact: Optional[UUID]
-
 class UserSchema(BaseModel):
     id: UUID4
     email: str

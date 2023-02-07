@@ -22,4 +22,4 @@ class Location(Base, PKUUIDMixin, TimestampsMixin):
 
     lead_contact = Column(ForeignKey("user.id", ondelete="SET NULL"), nullable=True)
     # Relations
-    users = relationship("User", backref="location", foreign_keys=[lead_contact])
+    users = relationship("User", backref="location", foreign_keys=[lead_contact], lazy="select")
