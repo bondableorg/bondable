@@ -1,8 +1,8 @@
 """use new migrations for fk
 
-Revision ID: eb321b4135f2
-Revises: 1b55d7a89634
-Create Date: 2023-02-07 14:39:40.047930
+Revision ID: 11aeb7a6aa29
+Revises: ad250b415012
+Create Date: 2023-02-07 16:26:56.359950
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'eb321b4135f2'
-down_revision = '1b55d7a89634'
+revision = '11aeb7a6aa29'
+down_revision = 'ad250b415012'
 branch_labels = None
 depends_on = None
 

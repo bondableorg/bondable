@@ -23,7 +23,8 @@ class CreateUserBusinessCase(BondableBusinessCase):
             )
             raise Exception(e)
         
-        user = await self.entities_service.user.select_one(id=user_id)
+        user: User = await self.entities_service.user.select_one(id=user_id)
+        print('loc', user.location)
         return user
 
 

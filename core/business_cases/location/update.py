@@ -3,7 +3,7 @@ from pydantic import UUID4
 
 from sqlalchemy.exc import IntegrityError
 
-from core.business_cases.user.schemas import LocationUpdate
+from core.business_cases.location.schemas import LocationUpdate
 
 # from core.controllers.schemas.user import RequestAuthData
 from core.common.utils.utils import BondableBusinessCase

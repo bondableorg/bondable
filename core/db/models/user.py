@@ -19,4 +19,9 @@ class User(Base, PKUUIDMixin, TimestampsMixin):
     full_name = Column(String, nullable=False, default="")
     language = Column(String(2), nullable=True, default="EN")
 
-    location = relationship("Location", back_populates="users", lazy="selectin")
+    location_id = Column(ForeignKey("location.id", ondelete="SET NULL"), nullable=True)
+    
+    location = relationship("Location", back_populates = "users")
+
+    __mapper_args__ = {"eager_defaults": True}
+

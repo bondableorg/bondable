@@ -50,7 +50,9 @@ class BaseSQLAlchemyEntityService(BaseEntityService, ABC):
         for key, value in filter_kwargs.items():
             if key.endswith("__in"):
                 # Project.key.in_(value)
-                in__filters.append(getattr(getattr(model, key.removesuffix("__in")), "in_")(value))
+                in__filters.append(
+                    getattr(getattr(model, key.removesuffix("__in")), "in_")(value)
+                )
             elif key.endswith("__not"):
                 not__filters.append(
                     getattr(
@@ -193,7 +195,9 @@ class BaseSQLAlchemyEntityService(BaseEntityService, ABC):
         result = result.scalar()
         return result
 
-    async def change_position(self, prev_position: int, new_position: int, **filter_kwargs):
+    async def change_position(
+        self, prev_position: int, new_position: int, **filter_kwargs
+    ):
         # in case, position not changing, do nothing
         if prev_position == new_position:
             return 0

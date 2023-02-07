@@ -29,7 +29,7 @@ class LocationCreate(BaseModel):
     phone: Optional[str]
     email: str
     website: Optional[str]
-    lead_contact: UUID4
+    
 
 class LocationUpdate(BaseModel):
     name: Optional[str]
