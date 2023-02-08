@@ -1,4 +1,4 @@
 #! /bin/sh
 set -e
 
-ddtrace-run gunicorn mysite.wsgi:application --config ./gunicorn_conf.py
+DD_GEVENT_PATCH_ALL=true ddtrace-run gunicorn api_crud.wsgi --workers 4 --bind :8000 --timeout 120
