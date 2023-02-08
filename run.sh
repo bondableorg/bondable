@@ -1,4 +1,4 @@
 #! /bin/sh
 set -e
 
-ddtrace-run gunicorn app:app --config ./gunicorn_conf.py
+ddtrace-run gunicorn mysite.wsgi:application --config ./gunicorn_conf.py
