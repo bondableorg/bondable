@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+from dotenv import load_dotenv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -95,13 +96,19 @@ WSGI_APPLICATION = "api_crud.wsgi.application"
 #     }
 # }
 
+hostname = os.environ['DBHOST']
+
 # use database settings for postgres
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "api_crud",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DBNAME'],
+        'HOST': hostname + ".postgres.database.azure.com",
+        'USER': os.environ['DBUSER'],
+        'PASSWORD': os.environ['DBPASS'] 
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
