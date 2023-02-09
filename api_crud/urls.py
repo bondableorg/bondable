@@ -30,7 +30,7 @@ urlpatterns = [
     path("api/v1/auth/", include("authentication.urls")),
     
     path("admin/", admin.site.urls),
-    path("", views.index, name="dashboard"),
+    path("dashboard/<int:id>", views.index, name="dashboard"),
     path('playground/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('docs/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

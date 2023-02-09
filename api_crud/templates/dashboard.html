@@ -1,3 +1,5 @@
+{% load static %}
+
 <!--
 =========================================================
 * Material Dashboard 2 - v3.0.4
@@ -18,8 +20,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="static/assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="static/assets/img/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
   <title>
     Bondable
   </title>
@@ -27,14 +29,14 @@
   <link rel="stylesheet" type="text/css"
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <!-- Nucleo Icons -->
-  <link href="static/assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="static/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/css/nucleo-svg.css' %}" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
-  <link id="pagestyle" href="static/assets/css/material-dashboard.css?v=3.0.4" rel="stylesheet" />
+  <link id="pagestyle" href="{% static 'assets/css/material-dashboard.css' %}" rel="stylesheet" />
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -46,7 +48,7 @@
         aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
         target="_blank">
-        <img src="static/assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+        <img src="{% static 'assets/img/logo-ct.png' %}" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold text-white">Bondable</span>
       </a>
     </div>
@@ -106,7 +108,9 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+          <h4 class="font-weight-bolder mb-0" id="home_name" style="float: left;"></h4>
+            by
+          <h4 class="font-weight-bolder mb-0" id="manager" style="float: right;"></h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -147,7 +151,7 @@
                   <a class="dropdown-item border-radius-md" href="javascript:;">
                     <div class="d-flex py-1">
                       <div class="my-auto">
-                        <img src="static/assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                        <img src="{% static 'assets/img/team-2.jpg' %}" class="avatar avatar-sm  me-3 ">
                       </div>
                       <div class="d-flex flex-column justify-content-center">
                         <h6 class="text-sm font-weight-normal mb-1">
@@ -165,7 +169,7 @@
                   <a class="dropdown-item border-radius-md" href="javascript:;">
                     <div class="d-flex py-1">
                       <div class="my-auto">
-                        <img src="static/assets/img/team-2.jpg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                        <img src="{% static 'assets/img/team-2.jpg' %}" class="avatar avatar-sm bg-gradient-dark  me-3 ">
                       </div>
                       <div class="d-flex flex-column justify-content-center">
                         <h6 class="text-sm font-weight-normal mb-1">
@@ -806,11 +810,11 @@
     </div>
   </div>
   <!--   Core JS Files   -->
-  <script src="static/assets/js/core/popper.min.js"></script>
-  <script src="static/assets/js/core/bootstrap.min.js"></script>
-  <script src="static/assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="static/assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="static/assets/js/plugins/chartjs.min.js"></script>
+  <script src="{% static 'js/core/popper.min.js' %}"></script>
+  <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+  <script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
   <script>
 
     document.addEventListener("DOMContentLoaded", function (event) {
@@ -822,8 +826,9 @@
         method: 'GET',
         headers: {}
       };
+      let home_id = document.URL.split('/').pop();
 
-      fetch('/api/v1/homes/aggregates', options)
+      fetch(`/api/v1/homes/aggregates/${home_id}`, options)
         .then((response) => response.json())
         .then((data) => {
           console.log({ data });
@@ -832,7 +837,9 @@
     };
 
     function render_data(data) {
-
+      console.log(data)
+      document.getElementById("home_name").innerText = data.home_name;
+      document.getElementById("manager").innerText = data.ops_mgr;
       document.getElementById("todays_occupancy").innerText = parseInt(data.todays_occupancy);
       document.getElementById("this_weeks_occupancy").innerText = parseInt(data.this_weeks_occupancy);
       document.getElementById("this_months_occupancy").innerText = parseInt(data.this_months_occupancy);
@@ -1039,7 +1046,7 @@
         data: {
           labels: data.last_9_months_occupancy.months,
           datasets: [{
-            label: "Mobile apps",
+            label: "Hours",
             tension: 0,
             borderWidth: 0,
             pointRadius: 5,
@@ -1128,7 +1135,7 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="static/assets/js/material-dashboard.min.js?v=3.0.4"></script>
+  <script src="{% static 'assets/js/material-dashboard.min.js' %}"></script>
 </body>
 
 </html>

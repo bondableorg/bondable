@@ -31,13 +31,16 @@ class RetrieveUpdateDestroyLocationAPIView(RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
 
-def get_aggregations(request):
-    home = Home.objects.get(id=1)
-    week_data = WeeklyShiftAggregate.objects.get(year="2023", week_number=6, home=home)
+def get_aggregations(request, id):
+    home = Home.objects.get(id=id)
+    week_number = WeeklyShiftAggregate.objects.all()[0].week_number
+    month = MonthlyShiftAggregate.objects.all()[0].month
+    day = DayShift.objects.all()[0].day
+    week_data = WeeklyShiftAggregate.objects.get(year="2023", week_number=week_number, home=home)
     month_data = MonthlyShiftAggregate.objects.get(
-        year="2023", month="February", home=home,
+        year="2023", month=month, home=home,
     )
-    day_data = DayShift.objects.get(day=datetime.date.today(), home=home)
+    day_data = DayShift.objects.get(day=day, home=home)
     total_hours_worked = day_data.hours_worked
     
     last_7_days = DayShift.objects.filter(
@@ -51,17 +54,17 @@ def get_aggregations(request):
 
     last_7_days_admissions = {
         "dates": [d.day for d in last_7_days],
-        "admissions": [day.admissions for day in last_7_days],
+        "admissions": [day.admissions_week_to_date for day in last_7_days],
     }
 
     last_7_days_discharges = {
         "dates": [d.day for d in last_7_days],
-        "discharges": [day.discharges for day in last_7_days],
+        "discharges": [day.discharges_week_to_date for day in last_7_days],
     }
 
     last_7_days_deaths = {  
         "dates": [d.day for d in last_7_days],
-        "deaths": [day.deaths for day in last_7_days],
+        "deaths": [day.deaths_week_to_date for day in last_7_days],
     }
     
     last_9_months = MonthlyShiftAggregate.objects.filter(
@@ -75,6 +78,8 @@ def get_aggregations(request):
 
     return JsonResponse(
         {
+            "home_name": home.name,
+            "ops_mgr": home.lead_contact.name,
             "todays_occupancy": day_data.occupancy,
             "this_weeks_occupancy": week_data.occupancy,
             "this_months_occupancy": month_data.occupancy,
