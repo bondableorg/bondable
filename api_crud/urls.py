@@ -23,6 +23,9 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
+admin.site.site_header  =  "Bondable Admin"  
+admin.site.site_title  =  "Bondable Admin Portal"
+admin.site.index_title  =  "Bondable"
 # urls
 urlpatterns = [
     path("api/v1/homes/", include("homes.urls")),
