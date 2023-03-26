@@ -30,6 +30,7 @@ admin.site.index_title  =  "Bondable"
 urlpatterns = [
     path("api/v1/homes/", include("homes.urls")),
     path("api/v1/users/", include("users.urls")),
+    path("api/v1/applogs/", include("applog.urls")),
     path("api/v1/auth/", include("authentication.urls")),
     
     path("admin/", admin.site.urls),
