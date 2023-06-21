@@ -1,8 +1,12 @@
+import json
 import datetime
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django_filters import rest_framework as filters
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
+
+from scripts.email_service import SendDynamic
 
 from .models import DayShift, Home, MonthlyShiftAggregate, WeeklyShiftAggregate
 
@@ -36,17 +40,21 @@ def get_aggregations(request, id):
     week_number = WeeklyShiftAggregate.objects.all()[0].week_number
     month = MonthlyShiftAggregate.objects.all()[0].month
     day = DayShift.objects.all()[0].day
-    week_data = WeeklyShiftAggregate.objects.get(year="2023", week_number=week_number, home=home)
+    week_data = WeeklyShiftAggregate.objects.get(
+        year="2023", week_number=week_number, home=home
+    )
     month_data = MonthlyShiftAggregate.objects.get(
-        year="2023", month=month, home=home,
+        year="2023",
+        month=month,
+        home=home,
     )
     day_data = DayShift.objects.get(day=day, home=home)
     total_hours_worked = day_data.hours_worked
-    
+
     last_7_days = DayShift.objects.filter(
         day__gte=datetime.date.today() - datetime.timedelta(days=7), home=home
     )
-    
+
     last_7_days_occupancy = {
         "dates": [d.day for d in last_7_days],
         "occupancy": [day.occupancy for day in last_7_days],
@@ -62,15 +70,15 @@ def get_aggregations(request, id):
         "discharges": [day.discharges_week_to_date for day in last_7_days],
     }
 
-    last_7_days_deaths = {  
+    last_7_days_deaths = {
         "dates": [d.day for d in last_7_days],
         "deaths": [day.deaths_week_to_date for day in last_7_days],
     }
-    
-    last_9_months = MonthlyShiftAggregate.objects.filter(
-        home=home
-    ).order_by("-month")[:9]
-    
+
+    last_9_months = MonthlyShiftAggregate.objects.filter(home=home).order_by("-month")[
+        :9
+    ]
+
     last_9_months_occupancy = {
         "months": [month.month for month in last_9_months],
         "occupancy": [month.occupancy for month in last_9_months],
@@ -93,6 +101,16 @@ def get_aggregations(request, id):
                 "planned_admissions": week_data.planned_admissions,
                 "planned_discharges": week_data.planned_discharges,
                 "expected_end_of_life": week_data.expected_end_of_life,
-            }
+            },
         }
     )
+
+
+@csrf_exempt
+def send_email(request):
+    if request.method == "POST":
+        print(request.body)
+        data = json.loads(request.body)
+        SendDynamic(data)
+        return JsonResponse({"message": "Email sent successfully"}, status=200)
+    return JsonResponse({"message": "Invalid request"}, status=400)

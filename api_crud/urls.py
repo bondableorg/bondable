@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 
 
 from api_crud import settings
+from homes.views import send_email
 
 from . import views
 
@@ -32,6 +33,8 @@ urlpatterns = [
     path("api/v1/users/", include("users.urls")),
     path("api/v1/applogs/", include("applog.urls")),
     path("api/v1/auth/", include("authentication.urls")),
+
+    path("send_email", send_email, name="send_email"),
     
     path("admin/", admin.site.urls),
     path("dashboard/<int:id>", views.index, name="dashboard"),
