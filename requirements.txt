@@ -46,3 +46,4 @@ xmltodict==0.13.0
 zope.event==4.6
 zope.interface==5.5.2
 sendgrid==6.10.0
+django-cors-headers==4.1.0
