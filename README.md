@@ -8,7 +8,7 @@ To run:
 $ docker-compose up
 ```
 
-Browse at http://localhost:8000/swagger
+Browse at http://localhost:8000/playground
 
 Changelog:
 1. AppLog added
