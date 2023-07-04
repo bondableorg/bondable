@@ -13,6 +13,6 @@ Browse at http://localhost:8000/playground
 Changelog:
 1. AppLog added  
 
-$ az acr login --name bondableregistry  
+$ az acr login --name bondable  
 $ docker build . -t bondableregistry.azurecr.io/bondable:1.0  
 $ docker push bondableregistry.azurecr.io/bondable:1.0  

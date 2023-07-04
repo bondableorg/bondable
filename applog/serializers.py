@@ -9,5 +9,6 @@ class AppLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppLog
         fields = "__all__"
+        depth = 1
 
 
