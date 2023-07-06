@@ -14,7 +14,7 @@ class AppLog(models.Model):
     data = models.JSONField()
 
     def __str__(self):
-        return f"{self.created.date()}: {self.home.name} | {self.appuser.name} managed by {self.in_charge.name}"
+        return f"{self.created.date()}: {self.app}"
 
     class Meta:
         ordering = ["-created"]
