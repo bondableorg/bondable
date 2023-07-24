@@ -14,7 +14,7 @@ class Home(models.Model):
     lead_contact = models.ForeignKey(
         BondableUser, on_delete=models.CASCADE, blank=True, null=True
     )
-    users = models.ManyToManyField(BondableUser, related_name="locations", blank=True)
+    users = models.ManyToManyField(BondableUser, related_name="homes", blank=True)
 
     def __str__(self):
         return self.name
